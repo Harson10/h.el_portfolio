@@ -2,40 +2,62 @@
 
 import { GraduationCap, Briefcase, Code, Brain } from 'lucide-react';
 import PropTypes from 'prop-types';
+import { motion } from 'framer-motion';
 
 
-const ProfileSection = ({ title, icon: Icon, children, className = "" }) => (
-    <div className={`bg-[#1a2544]/80 backdrop-blur-sm rounded-xl p-6 ${className}`}>
-        <div className="flex items-center gap-3 mb-4">
-            <Icon className="text-[#FFA600] w-6 h-6" />
+const ProfileSection = ({ title, icon: Icon, children, className = "", delay = 0 }) => (
+    <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay }}
+        whileHover={{ scale: 1.02 }}
+        className={`bg-[#1a2544]/80 backdrop-blur-sm rounded-xl p-6 ${className}`}
+    >
+        <motion.div
+            className="flex items-center gap-3 mb-4"
+            whileHover={{ x: 10 }}
+            transition={{ type: "spring", stiffness: 300 }}
+        >
+            <motion.div
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+            >
+                <Icon className="text-[#FFA600] w-6 h-6" />
+            </motion.div>
             <h2 className="text-xl font-bold text-[#FFA600]">{title}</h2>
-        </div>
+        </motion.div>
         {children}
-    </div>
+    </motion.div>
 );
 
 ProfileSection.propTypes = {
     title: PropTypes.string.isRequired,
     icon: PropTypes.elementType.isRequired,
     children: PropTypes.node.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
+    delay: PropTypes.number
 };
 
 ProfileSection.defaultProps = {
     className: ""
 };
 
-const SkillTag = ({ children }) => (
-    <span className="bg-[#293556] px-4 py-2 rounded-full text-sm font-medium">
+const SkillTag = ({ children, index }) => (
+    <motion.span
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.3, delay: index * 0.1 }}
+        whileHover={{ scale: 1.1, color: "#70C8F2" }}
+        className="bg-[#293556] px-4 py-2 rounded-full text-sm font-medium inline-block"
+    >
         {children}
-    </span>
+    </motion.span>
 );
 
 SkillTag.propTypes = {
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
+    index: PropTypes.number
 };
-
-
 
 export default function Profile() {
 
@@ -71,8 +93,6 @@ export default function Profile() {
         "Managing client expectations and requirements",
         "Passion for art and computing"
     ];
-
-
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-[#293556] to-[#1a2544] text-white">
