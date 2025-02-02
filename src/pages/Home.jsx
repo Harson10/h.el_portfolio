@@ -24,7 +24,7 @@ export default function Home() {
                 {/* Mobile View */}
                 <div className="md:hidden space-y-4">
                     <div className="flex flex-col items-center text-center space-y-4 mt-8">
-                        <div className="w-20 h-20 rounded-full bg-gradient-to-r from-blue-400 to-blue-500 flex items-center justify-center border border-white- border-2">
+                        <div className="w-20 h-20 rounded-full bg-gradient-to-r from-blue-400 to-blue-500 flex items-center justify-center border border-white border-2">
                             <img
                                 src="/Logo_H_Eloïc.png"
                                 alt="Profile"
@@ -36,7 +36,7 @@ export default function Home() {
                                 onClick={handleDownloadCV}
                                 className="hover:text-[#FFA600] transition-colors"
                             >
-                                Mon CV
+                                Resume
                             </button>
                             <button
                                 onClick={() => setIsContactModalOpen(true)}
@@ -46,25 +46,25 @@ export default function Home() {
                             </button>
                         </div>
                     </div>
+                    <div className="text-center font-bold">
+                        <p className="text-sm mb-1">Hello, my name is <span className="text-[#70C8F2]">Eloïc</span><br /></p>
+                        <p className="text-sm">I'm a <span className="text-[#70C8F2]">fullstack web developer</span></p>
+                    </div>
                     <div className="relative aspect-[3/4] w-full h-[90vw] overflow-hidden p-4">
                         <div className='flex flex-row h-[85vw] items-center justify-center border-white border-2 border-2 overflow-hidden  rounded-[15%40%15%40%/40%15%40%15%]'>
                             <img
-                                src="/Eloïc.jpeg"
+                                src="/Eloïc--.jpeg"
                                 alt="Profile"
                                 className="object-cover w-full h-[100vw]"
                             />
                         </div>
                     </div>
                     <div className="text-center">
-                        <p className="text-sm mb-1">Salut, je m'appelle Eloic</p>
-                        <p className="text-sm">Je suis un développeur web fullstack</p>
-                    </div>
-                    <div className="text-center">
                         <button
                             onClick={() => navigate('/projects')}
-                            className="text-blue-400 mb-8 hover:text-[#FFA600] transition-colors"
+                            className="text-white mb-8 hover:text-[#FFA600] transition-colors"
                         >
-                            Mes projets →
+                            My projects →
                         </button>
                     </div>
                 </div>
@@ -84,7 +84,7 @@ export default function Home() {
                                     onClick={handleDownloadCV}
                                     className="hover:text-[#FFA600] transition-colors block"
                                 >
-                                    Mon CV
+                                    Resume
                                 </button>
                                 <button
                                     onClick={() => setIsContactModalOpen(true)}
@@ -96,7 +96,7 @@ export default function Home() {
                                     onClick={() => navigate('/projects')}
                                     className="hover:text-[#FFA600] transition-colors block"
                                 >
-                                    Mes projets →
+                                    My projects →
                                 </button>
                             </div>
                         </div>

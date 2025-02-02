@@ -46,13 +46,13 @@ export default function Navbar() {
                     <div className="w-full flex justify-center items-center space-x-4">
                         <div className="bg-[#293556] rounded-full px-2 py-3 border border-white border-2">
                             <Link to="/" className={`font-bold px-6 py-2 rounded-full ${isActive('/') ? 'bg-[#FFA600] text-black' : 'text-white'}`}>
-                                Accueil
+                                Home
                             </Link>
                             <Link to="/profile" className={`font-bold mx-4 px-6 py-2 rounded-full ${isActive('/profile') ? 'bg-[#FFA600] text-black' : 'text-white'}`}>
-                                Profile
+                                About
                             </Link>
                             <Link to="/projects" className={`font-bold px-6 py-2 rounded-full ${isActive('/projects') ? 'bg-[#FFA600] text-black' : 'text-white'}`}>
-                                Projets
+                                Projects
                             </Link>
                         </div>
                     </div>
