@@ -62,7 +62,7 @@ const ContactModal = ({ isOpen, onClose }) => {
 
         try {
             await emailjs.send(
-                'service_7i072le',
+                'service_f4swcdq',
                 'template_fo5jx3b',
                 {
                     from_name: formData.name,
@@ -70,7 +70,7 @@ const ContactModal = ({ isOpen, onClose }) => {
                     message: formData.message,
                     to_email: 'harenarisoae@gmail.com'
                 },
-                'kcvbyaOsc42gVbcWE'
+                'aph7GV8UxmJINktis'
             );
 
             setStatus({ sending: false, success: true, error: null });

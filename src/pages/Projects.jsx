@@ -7,6 +7,7 @@ export default function Projects() {
         {
             id: 1,
             title: "LearningPro module 1 (Frontend)",
+            hasDemo: true,
             description: [
                 "- Pour une entreprise",
                 "- Acteur : Administrateur, Formateur, Participant.",
@@ -17,12 +18,13 @@ export default function Projects() {
             technologies: ["React", "TypeScript", "Tailwind CSS", "Axios"],
             category: "frontend",
             githubLink: "https://github.com/Harson10/LearningPro_mod1_frontend",
-            liveLink: "https://project-demo.com",
+            liveLink: "https://github.com/Harson10/LearningPro_mod1_frontend",
             featured: true
         },
         {
             id: 2,
             title: "LearningPro module 1 (Backend)",
+            hasDemo: false,
             description: [
                 "- Pour une entreprise",
                 "- Acteur : Administrateur, Formateur, Participant.",
@@ -33,7 +35,7 @@ export default function Projects() {
             technologies: ["Node.js", "Express", "TypeScript", "PostgreSQL", "Sequelize", "Swagger", "Axios"],
             category: "backend",
             githubLink: "https://github.com/Harson10/LearningPro_mod1_backend",
-            liveLink: "https://project-demo.com",
+            liveLink: "",
             featured: true
         },
     ];
@@ -120,23 +122,15 @@ export default function Projects() {
                                     />
                                     <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center gap-4">
                                         {project.githubLink && (
-                                            <a
-                                                href={project.githubLink}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="p-2 bg-white rounded-full text-black hover:bg-[#FFA600] transition-colors"
-                                            >
-                                                <Github size={20} />
+                                            <a href={project.githubLink} target="_blank" rel="noopener noreferrer"
+                                                className="p-2 bg-white rounded-full text-black hover:bg-[#FFA600] transition-colors">
+                                                <Github size={24} />
                                             </a>
                                         )}
-                                        {project.liveLink && (
-                                            <a
-                                                href={project.liveLink}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="p-2 bg-white rounded-full text-black hover:bg-[#FFA600] transition-colors"
-                                            >
-                                                <ExternalLink size={20} />
+                                        {project.liveLink && project.hasDemo && (
+                                            <a href={project.liveLink} target="_blank" rel="noopener noreferrer"
+                                                className="p-2 bg-white rounded-full text-black hover:bg-[#FFA600] transition-colors">
+                                                <ExternalLink size={24} />
                                             </a>
                                         )}
                                     </div>
@@ -216,22 +210,14 @@ export default function Projects() {
                                         />
                                         <div className="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
                                             {project.githubLink && (
-                                                <a
-                                                    href={project.githubLink}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="p-2 bg-white rounded-full text-black hover:bg-[#FFA600] transition-colors"
-                                                >
+                                                <a href={project.githubLink} target="_blank" rel="noopener noreferrer"
+                                                    className="p-2 bg-white rounded-full text-black hover:bg-[#FFA600] transition-colors">
                                                     <Github size={24} />
                                                 </a>
                                             )}
-                                            {project.liveLink && (
-                                                <a
-                                                    href={project.liveLink}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="p-2 bg-white rounded-full text-black hover:bg-[#FFA600] transition-colors"
-                                                >
+                                            {project.liveLink && project.hasDemo && (
+                                                <a href={project.liveLink} target="_blank" rel="noopener noreferrer"
+                                                    className="p-2 bg-white rounded-full text-black hover:bg-[#FFA600] transition-colors">
                                                     <ExternalLink size={24} />
                                                 </a>
                                             )}
