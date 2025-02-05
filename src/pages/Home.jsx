@@ -1,12 +1,15 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import ContactModal from '../components/ContactModal';
+
+import { Code, Palette, Database, ArrowDown } from 'lucide-react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Parallax } from 'react-parallax';
+import TypedText from '../components/TypedText';
+import ExpertiseCard from '../components/ExpertiseCard';
+import ContactForm from '../components/ContactForm';
 
 export default function Home() {
-    const navigate = useNavigate();
-    const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+    const { scrollYProgress } = useScroll();
+    const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
     const handleDownloadCV = () => {
         const link = document.createElement('a');
@@ -17,235 +20,219 @@ export default function Home() {
         document.body.removeChild(link);
     };
 
-    // Variants d'animation pour différents éléments
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.2
-            }
+    const handleScrollToContact = () => {
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+            contactSection.scrollIntoView({ behavior: 'smooth' });
         }
     };
 
-    const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1,
-            transition: {
-                duration: 0.3,
-                ease: "easeOut"
-            }
-        }
-    };
-
-    const imageVariants = {
-        hidden: { scale: 0.8, opacity: 0 },
-        visible: {
-            scale: 1,
-            opacity: 1,
-            transition: {
-                duration: 0.3,
-                ease: "easeOut"
-            }
-        }
-    };
-
-    const photoVariants = {
-        initial: {
-            y: 20,
-            opacity: 0,
-            scale: 0.95
+    const expertiseData = [
+        {
+            icon: Code,
+            title: "Full Stack Development",
+            description: "Experienced in building complete web applications using modern technologies like React, Node.js, and TypeScript.",
+            gradient: "from-[#70C8F2] to-[#474394]"
         },
-        animate: {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            transition: {
-                duration: 0.8,
-                ease: "easeOut"
-            }
+        {
+            icon: Database,
+            title: "Backend Architecture",
+            description: "Skilled in designing robust backend systems with focus on scalability, security, and performance.",
+            gradient: "from-[#474394] to-[#70C8F2]"
         },
-        float: {
-            y: [-5, 5, -5],
-            transition: {
-                duration: 6,
-                repeat: Infinity,
-                ease: "easeInOut"
-            }
-        },
-        hover: {
-            scale: 1.03,
-            rotate: 2,
-            transition: {
-                duration: 0.3,
-                ease: "easeOut"
-            }
+        {
+            icon: Palette,
+            title: "UI/UX Design",
+            description: "Creating intuitive and beautiful user interfaces with attention to detail and user experience.",
+            gradient: "from-[#70C8F2] to-[#474394]"
         }
-    };
+    ];
 
     const buttonVariants = {
-        hover: { scale: 1.05, transition: { duration: 0.3 } },
+        hover: {
+            scale: 1.05,
+            boxShadow: "0px 5px 15px rgba(255, 166, 0, 0.3)",
+        },
         tap: { scale: 0.95 }
     };
 
+    const imageVariants = {
+        initial: { scale: 1, rotate: 0 },
+        animate: {
+            scale: [1, 1.02, 1],
+            rotate: [0, 1, -1, 0],
+            transition: {
+                duration: 5,
+                repeat: Infinity,
+                ease: "easeInOut"
+            }
+        }
+    };
+
     return (
-        <div className="min-h-screen bg-[#293556] text-white pt-16 overflow-hidden">
-            <main className="container mx-auto px-4">
-                {/* Mobile View */}
-                <motion.div
-                    className="md:hidden space-y-4"
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="visible"
-                >
-                    <motion.div
-                        className="flex flex-col items-center text-center space-y-4 mt-8"
-                        variants={itemVariants}
-                    >
-                        <motion.div
-                            className="w-20 h-20 rounded-full bg-gradient-to-r from-blue-400 to-blue-500 flex items-center justify-center border border-white border-2"
-                            whileHover={{ rotate: 360 }}
-                            transition={{ duration: 0.8 }}
+        <div className="min-h-screen bg-gradient-to-b from-[#1a2544] via-[#1a2544]/80 to-[#1a2544] text-white overflow-hidden">
+            {/* Hero Section */}
+            <Parallax
+                blur={0}
+                bgImageAlt="hero background"
+                strength={200}
+                className="min-h-screen relative"
+                renderLayer={percentage => (
+                    <div
+                        style={{
+                            position: 'absolute',
+                            width: '100%',
+                            height: '100%',
+                            background: `radial-gradient(circle, rgba(26,37,68,${percentage * 0.5}) 0%, rgba(26,37,68,${percentage}) 100%)`
+                        }}
+                    />
+                )}
+            >
+                <div className="container mx-auto px-4 min-h-screen flex flex-col md:flex-row items-center justify-center gap-12 py-20">
+                    <div className="flex flex-col justify-center items-center text-center w-full md:w-2/3 space-y-8">
+                        <motion.h1
+                            initial={{ opacity: 0, y: -50 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, ease: "easeOut" }}
+                            className="text-5xl md:text-7xl font-bold"
                         >
-                            <img
-                                src="/Logo_H_Eloïc.png"
-                                alt="Profile"
-                                className="object-cover size-20"
+                            Hello, I'm{" "}
+                            <span className="bg-gradient-to-r from-[#70C8F2] to-[#FFA600] bg-clip-text text-transparent">
+                                Eloïc
+                            </span>
+                        </motion.h1>
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3 }}
+                            className="text-2xl md:text-3xl font-light"
+                        >
+                            I am a{" "}
+                            <TypedText
+                                strings={[
+                                    "fullstack web developer",
+                                    "software engineer",
+                                    "UI/UX designer"
+                                ]}
+                                className="text-[#FFA600] font-medium"
                             />
                         </motion.div>
-                        <div className="flex justify-between w-full px-8">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.6 }}
+                            className="flex flex-wrap gap-4"
+                        >
                             <motion.button
+                                variants={buttonVariants}
+                                whileHover="hover"
+                                whileTap="tap"
                                 onClick={handleDownloadCV}
-                                className="hover:text-[#FFA600] transition-colors"
-                                variants={buttonVariants}
-                                whileHover="hover"
-                                whileTap="tap"
+                                className="bg-gradient-to-r from-[#FFA600] to-[#FFA600]/80 text-white px-8 py-3 rounded-xl font-medium shadow-lg backdrop-blur-sm transition-all duration-300"
                             >
-                                Resume
+                                Download CV
                             </motion.button>
                             <motion.button
-                                onClick={() => setIsContactModalOpen(true)}
-                                className="hover:text-[#FFA600] transition-colors"
                                 variants={buttonVariants}
                                 whileHover="hover"
                                 whileTap="tap"
+                                onClick={handleScrollToContact}
+                                className="border-2 border-[#FFA600] px-8 py-3 rounded-xl font-medium hover:bg-[#FFA600] hover:text-white transition-all duration-300"
                             >
-                                Contacts
+                                Let's Connect
                             </motion.button>
-                        </div>
-                    </motion.div>
-                    <motion.div
-                        className="text-center font-bold"
-                        variants={itemVariants}
-                    >
-                        <p className="text-sm mb-1">Hello, my name is <span className="text-[#70C8F2]">Eloïc</span><br /></p>
-                        <p className="text-sm">I'm a <span className="text-[#70C8F2]">fullstack web developer</span></p>
-                    </motion.div>
-                    <motion.div
-                        className="relative aspect-[3/4] w-full h-[90vw] overflow-hidden p-4"
-                        variants={imageVariants}
-                    >
-                        <motion.div
-                            className='flex flex-row h-[85vw] items-center justify-center border-white border-2 overflow-hidden rounded-[15%40%15%40%/40%15%40%15%]'
-                            variants={photoVariants}
-                            initial="initial"
-                            animate={["animate", "float"]}
-                            whileHover="hover"
-                        >
-                            <img
-                                src="/Eloïc--.jpeg"
-                                alt="Profile"
-                                className="object-cover w-full h-[100vw]"
-                            />
                         </motion.div>
-                    </motion.div>
+                    </div>
                     <motion.div
-                        className="text-center"
-                        variants={itemVariants}
+                        className="relative w-80 md:w-1/3 h-[40vh] md:h-[60vh] rounded-3xl overflow-hidden border border-[#FFA600/10]"
+                        variants={imageVariants}
+                        initial="initial"
+                        animate="animate"
                     >
-                        <motion.button
-                            onClick={() => navigate('/projects')}
-                            className="text-white mb-8 hover:text-[#FFA600] transition-colors"
-                            variants={buttonVariants}
-                            whileHover="hover"
-                            whileTap="tap"
-                        >
-                            My projects →
-                        </motion.button>
+                        <img
+                            src="/Eloïc--.jpeg"
+                            alt="Profile"
+                            className="object-cover w-full md:h-30vw] rounded-3xl shadow-2xl 
+                                     transition-transform duration-300 hover:scale-105
+                                     "
+                        />
                     </motion.div>
-                </motion.div>
+                </div>
 
-                {/* Desktop View */}
                 <motion.div
-                    className="hidden md:flex h-[80vh] items-center"
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="visible"
+                    className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+                    style={{ opacity }}
+                    animate={{
+                        y: [0, 10, 0],
+                        opacity: [1, 0.6, 1]
+                    }}
+                    transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }}
                 >
-                    <motion.div
-                        className="w-2/3"
-                        variants={itemVariants}
-                    >
-                        <div className="flex flex-col justify-center items-center space-y-8">
-                            <motion.h1
-                                className="text-4xl font-bold"
-                                variants={itemVariants}
-                            >
-                                Hello, my name is <span className="text-[#70C8F2]">Eloïc</span><br />
-                                <motion.h2
-                                    className="text-xl font-bold"
-                                    variants={itemVariants}
-                                >
-                                    I'm a <span className="text-[#70C8F2]">fullstack web developer</span>
-                                </motion.h2>
-                            </motion.h1>
-                            <div className="space-y-3">
-                                {['Resume', 'Contacts', 'My projects →'].map((text, index) => (
-                                    <motion.button
-                                        key={index}
-                                        onClick={() => {
-                                            if (text === 'Resume') handleDownloadCV();
-                                            else if (text === 'Contacts') setIsContactModalOpen(true);
-                                            else navigate('/projects');
-                                        }}
-                                        className="hover:text-[#FFA600] transition-colors block"
-                                        variants={buttonVariants}
-                                        whileHover="hover"
-                                        whileTap="tap"
-                                        custom={index}
-                                    >
-                                        {text}
-                                    </motion.button>
-                                ))}
-                            </div>
-                        </div>
-                    </motion.div>
-                    <motion.div className="w-1/3" variants={imageVariants}>
-                        <div className="relative aspect-[1/1.5] max-w-auto ml-auto overflow-hidden pt-24">
-                            <motion.div
-                                className='w-auto h-[80%] rounded-[79%_27%_26%_85%/66%_58%_47%_34%] m-8 shadow-[0_20px_40px_-15px_rgba(112,200,242,0.3),0_25px_50px_-20px_rgba(71,67,148,0.2),0_-5px_15px_-8px_rgba(112,200,242,0.1)] border-white border-2 overflow-hidden'
-                                variants={photoVariants}
-                                initial="initial"
-                                animate={["animate", "float"]}
-                                whileHover="hover"
-                            >
-                                <img
-                                    src="/Eloïc.jpeg"
-                                    alt="Profile"
-                                    className="object-cover"
-                                />
-                            </motion.div>
-                        </div>
-                    </motion.div>
+                    <ArrowDown className="w-8 h-8 text-[#FFA600]" />
                 </motion.div>
-            </main>
+            </Parallax>
 
-            <ContactModal
-                isOpen={isContactModalOpen}
-                onClose={() => setIsContactModalOpen(false)}
-            />
+            {/* Expertise Section */}
+            <div className="relative py-32">
+                <div className="absolute inset-0 bg-gradient-to-b from-[#1a2544]/50 to-[#1a2544] opacity-50" />
+                <div className="container mx-auto px-4">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="text-4xl md:text-5xl font-bold text-center mb-16"
+                    >
+                        <span className="bg-gradient-to-r from-[#70C8F2] to-[#FFA600] bg-clip-text text-transparent">
+                            My Expertise
+                        </span>
+                    </motion.h2>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                        {expertiseData.map((item, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 50 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: index * 0.2 }}
+                            >
+                                <ExpertiseCard {...item} />
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* Contact Section */}
+            <div id="contact" className="relative bg-[#1a2544]">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                <div className="container mx-auto px-4 py-32">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="text-4xl md:text-5xl font-bold text-center mb-16"
+                    >
+                        <span className="bg-gradient-to-r from-[#FFA600] to-[#70C8F2] bg-clip-text text-transparent">
+                            Get in Touch
+                        </span>
+                    </motion.h2>
+                    <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+
+                    >
+                        <ContactForm />
+                    </motion.div>
+                </div>
+            </div>
         </div>
     );
 }

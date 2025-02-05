@@ -1,0 +1,5 @@
+salut, j'ai fini mon portfolio mais je ne le trouve pas encore suffisament professionnelle, l'utilisateur dois avoir l'impression d'interragir avec moi dedans,
+je veux modifier certain contenu, l'expertise devra etre dans home sous forme de cartes (pas plus de 3). dans le hero section sur "I am a ..." je veux que ce soit 
+suivi de ces valeur en typed.js: "fullstack web developer", "software engineer", "UI/UX designer". et je veux que ce ne soit pas trop saturé on doit pouvoir agreablement profiter de chaque information ou couple d'informations.
+et je veux des effets parallax pour chaque section que tu creera dans image en fond. et je veux garder mes photos. pour le formulaire de contact je ne veux plus d'un modal mais juste l'afficher au scroll via le bouton contact 
+a la derniere section de home et en desktop je le veux en paysage avec un arrangement de ses contenus et en portrait pour mobile. enfin utilise un container

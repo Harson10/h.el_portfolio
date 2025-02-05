@@ -205,10 +205,6 @@ export default function Projects() {
                     >
                         <motion.div
                             className="w-20 h-20 rounded-full bg-gradient-to-r from-blue-400 to-blue-500 flex items-center justify-center border-2 border-white mx-auto mb-4"
-                            animate={{
-                                rotate: [0, 360],
-                                borderColor: ['#ffffff', '#FFA600', '#ffffff']
-                            }}
                             transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                         >
                             <img src="/Logo_H_Eloïc.png" alt="Logo" className="w-full h-full object-cover" />
