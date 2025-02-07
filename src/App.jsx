@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/layout/Navbar';
@@ -9,6 +10,12 @@ import './App.css';
 
 const AnimatedRoutes = () => {
   const location = useLocation();
+
+  // Dans App.jsx, ajoutez ceci au début de votre composant App
+  useEffect(() => {
+    // Set initial theme class
+    document.documentElement.classList.add('dark');
+  }, []);
 
   return (
     <AnimatePresence mode="wait">

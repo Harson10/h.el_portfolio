@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from 'react';
-import { Code, Brain, Mail, Github, Linkedin } from 'lucide-react';
+import { Code, Brain, Facebook, Github, Linkedin, } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Tooltip,
@@ -122,7 +122,6 @@ SkillTag.propTypes = {
 };
 
 export default function Profile() {
-    //   const [activeSection, setActiveSection] = useState(null);
 
     const hardSkills = {
         frontend: [
@@ -182,18 +181,18 @@ export default function Profile() {
                                     transition={{ duration: 0.8, delay: 0.2 }}
                                 >
                                     <h1 className="text-4xl font-bold">HARENARISOA Eloïc</h1>
-                                    <h2 className="text-xl font-semibold text-[#FFA600]">
-                                        Software Engineer / Web Developer / UI-UX Designer
+                                    <h2 className="text-xl font-semibold text-[#70C8F2]">
+                                        Software Engineer / Fullstack Web Developer / UI-UX Designer
                                     </h2>
-                                    <p className="text-lg text-gray-300 max-w-2xl">
-                                        My approach combines technical expertise with artistic sensibility, allowing me to create solutions that are both functional and visually appealing. I'm committed to continuous learning and staying ahead of industry trends, ensuring that I can deliver cutting-edge solutions that meet evolving market needs.
+                                    <p className="text-lg text-gray-300 max-w-2xl text-justify">
+                                        I blend technical expertise with artistic sensibility to create functional and visually appealing solutions. Committed to continuous learning, I stay ahead of industry trends to deliver cutting-edge solutions that meet evolving market needs.
                                     </p>
 
                                     {/* Social Links */}
                                     <div className="flex gap-4 mt-4">
-                                        <SocialLink href="mailto:eloic@example.com" icon={Mail} label="Email" />
-                                        <SocialLink href="https://github.com/eloic" icon={Github} label="GitHub" />
-                                        <SocialLink href="https://linkedin.com/in/eloic" icon={Linkedin} label="LinkedIn" />
+                                        <SocialLink href="https://github.com/eloic" icon={Github} />
+                                        <SocialLink href="https://linkedin.com/in/eloic" icon={Linkedin} />
+                                        <SocialLink href="https://github.com/eloic" icon={Facebook} />
                                     </div>
                                 </motion.div>
                             </div>
@@ -203,13 +202,35 @@ export default function Profile() {
                     {/* Main Content with Grid Layout */}
                     <div className="grid md:grid-cols-1 gap-16">
                         <div className="space-y-8">
+                            <motion.h2
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.8 }}
+                                className="text-4xl md:text-5xl font-bold text-center mb-16"
+                            >
+                                <span className="bg-gradient-to-r from-[#70C8F2] to-[#FFA600] bg-clip-text text-transparent">
+                                    Academic and professional background
+                                </span>
+                            </motion.h2>
                             <AcademicTimeline />
                         </div>
 
+                        <motion.h2
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8 }}
+                            className="text-4xl md:text-5xl font-bold text-center mb-8 mt-8"
+                        >
+                            <span className="bg-gradient-to-r from-[#70C8F2] to-[#FFA600] bg-clip-text text-transparent">
+                                My skills
+                            </span>
+                        </motion.h2>
                         <div className="grid md:grid-cols-2 gap-16">
                             <div className="space-y-8">
                                 <ProfileSection
-                                    title="Technical Expertise"
+                                    title="Hard skills"
                                     icon={Code}
                                     delay={0.6}
                                 >
@@ -244,7 +265,7 @@ export default function Profile() {
                             </div>
                             <div className="space-y-8">
                                 <ProfileSection
-                                    title="Core Competencies"
+                                    title="Soft skills"
                                     icon={Brain}
                                     delay={0.8}
                                 >

@@ -41,7 +41,7 @@ const SnakePathTimeline = () => {
         {
             year: '2019',
             title: 'High School Diploma',
-            description: 'Series D with honors',
+            description: 'Series D',
             icon: GraduationCap,
             position: 'left'
         }
