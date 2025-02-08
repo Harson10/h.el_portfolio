@@ -1,72 +1,53 @@
-/* .navigation-grad {
-  background: linear-gradient(135deg, #474394, #70C8F2, #474394);
-  z-index: 10;
-}
-
-.custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 5px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.8);
-} */
-
-/* Existing styles */
-.navigation-grad-dark {
-  background: linear-gradient(135deg, #474394, #70C8F2, #474394);
-  z-index: 10;
-}
-
-.navigation-grad-light {
-  background: linear-gradient(135deg, #474394, #70C8F2, #474394);
-  z-index: 10;
-}
-
-.custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 5px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.8);
-}
-
-/* Theme specific styles */
 :root {
   --bg-primary: #293556;
   --text-primary: #ffffff;
+  --scroll-track: rgba(255, 255, 255, 1);
+  --scroll-thumb: rgba(168, 168, 168, 0.6);
+  --scroll-thumb-hover: rgba(168, 168, 168, 0.9);
 }
 
 :root.dark {
   --bg-primary: #293556;
   --text-primary: #ffffff;
+  --scroll-track: rgba(255, 255, 255, 0.1);
+  --scroll-thumb: rgba(255, 255, 255, 0.3);
+  --scroll-thumb-hover: rgba(255, 255, 255, 0.6);
 }
 
 :root:not(.dark) {
   --bg-primary: #f8fafc;
   --text-primary: #1e293b;
+  --scroll-track: rgba(255, 255, 255, 1);
+  --scroll-thumb: rgba(168, 168, 168, 0.6);
+  --scroll-thumb-hover: rgba(168, 168, 168, 0.9);
 }
 
-/* Apply theme variables */
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navigation-grad {
+  background: linear-gradient(135deg, #474394c5, #70c9f2, #474394c5);
+  /* background: linear-gradient(135deg, #474394, #70C8F2, #474394); */
+  backdrop-filter: blur(2px);
+  z-index: 10;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--scroll-track);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb);
+  border-radius: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--scroll-thumb-hover);
 }

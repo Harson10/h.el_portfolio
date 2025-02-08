@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Code, Brain, Facebook, Github, Linkedin, } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -123,6 +123,22 @@ SkillTag.propTypes = {
 
 export default function Profile() {
 
+    const [isDark, setIsDark] = useState(true);
+
+    useEffect(() => {
+        const checkTheme = () => {
+            setIsDark(document.documentElement.classList.contains('dark'));
+        };
+        checkTheme();
+        const observer = new MutationObserver(checkTheme);
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+        return () => observer.disconnect();
+    }, []);
+
+
     const hardSkills = {
         frontend: [
             { name: 'React' },
@@ -145,7 +161,10 @@ export default function Profile() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-[#293556] to-[#1a2544] text-white">
+        <div className={`min-h-screen transition-colors duration-300 ${isDark
+            ? 'bg-gradient-to-b from-[#293556] to-[#1a2544] text-white'
+            : 'bg-gradient-to-b from-gray-50 via-gray-100 to-gray-200 text-gray-900'
+            }`}>
             <div className="container mx-auto px-4 py-32">
                 <div className="max-w-5xl mx-auto">
                     {/* Header Section with improved animations */}
@@ -156,21 +175,16 @@ export default function Profile() {
                         transition={{ duration: 0.8 }}
                     >
                         <div className="flex flex-col md:flex-row items-center md:items-start gap-8 mb-12">
-                            <motion.div
-                                className="w-48 h-48 relative rounded-full border-2 border-white overflow-hidden"
-                                whileHover={{ scale: 1.05 }}
-                                transition={{ type: "spring", stiffness: 300 }}
-                            >
-                                <motion.div
-                                    className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full"
+                            <motion.div className={`w-48 h-48 relative rounded-full border-2 ${isDark ? 'border-white' : 'border-gray-800'
+                                } overflow-hidden`}>
+                                <motion.div className={`absolute inset-0 bg-gradient-to-r ${isDark
+                                    ? 'from-blue-400 to-blue-500'
+                                    : 'from-blue-300 to-blue-400'
+                                    } rounded-full`}
                                     animate={{ rotate: [0, 360] }}
                                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                                 />
-                                <img
-                                    src="/Eloïc.jpg"
-                                    alt="Profile"
-                                    className="w-full h-full object-cover rounded-full border-2 border-white relative"
-                                />
+                                <img src="/Eloïc.jpg" alt="Profile" className="w-full h-full object-cover rounded-full relative" />
                             </motion.div>
 
                             <div className="flex-1 text-center md:text-left">
@@ -184,9 +198,11 @@ export default function Profile() {
                                     <h2 className="text-xl font-semibold text-[#70C8F2]">
                                         Software Engineer / Fullstack Web Developer / UI-UX Designer
                                     </h2>
-                                    <p className="text-lg text-gray-300 max-w-2xl text-justify">
+                                    <p className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-700'
+                                        } max-w-2xl text-justify mt-4`}>
                                         I blend technical expertise with artistic sensibility to create functional and visually appealing solutions. Committed to continuous learning, I stay ahead of industry trends to deliver cutting-edge solutions that meet evolving market needs.
                                     </p>
+
 
                                     {/* Social Links */}
                                     <div className="flex gap-4 mt-4">
@@ -213,7 +229,7 @@ export default function Profile() {
                                     Academic and professional background
                                 </span>
                             </motion.h2>
-                            <AcademicTimeline />
+                            <AcademicTimeline isDark={isDark} />
                         </div>
 
                         <motion.h2
@@ -233,6 +249,11 @@ export default function Profile() {
                                     title="Hard skills"
                                     icon={Code}
                                     delay={0.6}
+                                    isDark={isDark}
+                                    className={`${isDark
+                                        ? 'bg-[#1a2544]/80 backdrop-blur-sm border-[#FFA600]/30'
+                                        : 'bg-white/90 backdrop-blur-sm border-gray-200 shadow-lg'
+                                        } rounded-xl p-6 border transition-colors duration-300`}
                                 >
                                     <div className="space-y-6">
                                         {Object.entries(hardSkills).map(([category, skills]) => (
@@ -251,6 +272,12 @@ export default function Profile() {
                                                             key={index}
                                                             index={index}
                                                             proficiency={skill.proficiency}
+                                                            className={
+                                                                `${isDark ?
+                                                                    'bg-[#293556]' :
+                                                                    'bg-gray-200'
+                                                                } px-4 py-2 rounded-full text-sm`
+                                                            }
                                                         >
                                                             {skill.name}
                                                         </SkillTag>

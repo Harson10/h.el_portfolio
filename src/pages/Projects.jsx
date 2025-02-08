@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Github, ExternalLink, Search, Tags } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PropTypes from 'prop-types';
 
+const ProjectCard = ({ project, isDark }) => (
 
-const ProjectCard = ({ project }) => (
     <motion.div
         layout
         initial={{ opacity: 0, y: 20 }}
@@ -52,35 +52,22 @@ const ProjectCard = ({ project }) => (
                 )}
             </motion.div>
         </div>
-        <motion.div
-            className="p-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-        >
-            <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-            <div className="text-gray-300 mb-4">
-                {project.description.map((line, index) => (
-                    <motion.span
-                        key={index}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.3 + index * 0 }}
-                        className="block"
-                    >
-                        {line}
-                    </motion.span>
-                ))}
+        <motion.div className="p-6">
+            <h3 className={`text-xl font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'
+                }`}>
+                {project.title}
+            </h3>
+            <div className={isDark ? 'text-gray-300' : 'text-gray-600'}>
+                {project.description}
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 mt-4">
                 {project.technologies.map((tech, index) => (
                     <motion.span
                         key={index}
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.2 + index * 0 }}
-                        whileHover={{ scale: 1.1, color: '#FFA600' }}
-                        className="px-3 py-1 bg-[#293556] rounded-full text-sm"
+                        className={`px-3 py-1 rounded-full text-sm ${isDark
+                            ? 'bg-[#293556] text-white'
+                            : 'bg-gray-100 text-gray-800'
+                            }`}
                     >
                         {tech}
                     </motion.span>
@@ -92,6 +79,7 @@ const ProjectCard = ({ project }) => (
 
 ProjectCard.propTypes = {
     project: PropTypes.object.isRequired,
+    isDark: PropTypes.bool.isRequired
 };
 
 const CategoryButton = ({ category, isSelected, onClick }) => (
@@ -115,6 +103,26 @@ CategoryButton.propTypes = {
 };
 
 export default function Projects() {
+
+    const [isDark, setIsDark] = useState(true);
+    const [selectedCategory, setSelectedCategory] = useState('all');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [isSearchVisible, setIsSearchVisible] = useState(false);
+
+    useEffect(() => {
+        const checkTheme = () => {
+            setIsDark(document.documentElement.classList.contains('dark'));
+        };
+        checkTheme();
+        const observer = new MutationObserver(checkTheme);
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+        return () => observer.disconnect();
+    }, []);
+
+
 
     const projectsData = [
         {
@@ -161,9 +169,6 @@ export default function Projects() {
         { id: 'mobile', label: 'Mobile' },
     ];
 
-    const [selectedCategory, setSelectedCategory] = useState('all');
-    const [searchQuery, setSearchQuery] = useState('');
-    const [isSearchVisible, setIsSearchVisible] = useState(false);
 
     const filteredProjects = projectsData.filter(project => {
         const matchesCategory = selectedCategory === 'all' || project.category === selectedCategory;
@@ -188,7 +193,10 @@ export default function Projects() {
         <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="min-h-screen bg-gradient-to-b from-[#293556] to-[#1a2544] text-white pt-24 pb-12"
+            className={`min-h-screen transition-colors duration-300  pt-24 pb-12 ${isDark
+                ? 'bg-gradient-to-b from-[#293556] to-[#1a2544] text-white'
+                : 'bg-gradient-to-b from-gray-50 via-gray-100 to-gray-200 text-gray-900'
+                }`}
         >
             {/* Mobile View */}
             <motion.div
@@ -209,19 +217,14 @@ export default function Projects() {
                         >
                             <img src="/Logo_H_Eloïc.png" alt="Logo" className="w-full h-full object-cover" />
                         </motion.div>
-                        <motion.h1
-                            className="text-2xl font-bold mb-2"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.3 }}
-                        >
+                        <motion.h1 className={`text-3xl font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'
+                            }`}>
                             My Projects
                         </motion.h1>
                         <motion.p
-                            className="text-gray-300"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ delay: 0.4 }}
+                            className={isDark ? 'text-gray-300' : 'text-gray-600'}
                         >
                             Discover my achievements and experiences
                         </motion.p>
@@ -254,18 +257,23 @@ export default function Projects() {
                             )}
                         </AnimatePresence>
 
-                        <motion.div
-                            className="flex flex-wrap gap-2"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.5 }}
-                        >
+                        <motion.div className="flex flex-wrap gap-3 mb-8">
                             {categories.map((category) => (
                                 <CategoryButton
                                     key={category.id}
                                     category={category}
                                     isSelected={selectedCategory === category.id}
                                     onClick={() => setSelectedCategory(category.id)}
+                                    isDark={isDark}
+                                    className={`
+                                    ${category.isSelected
+                                            ? 'bg-[#FFA600] text-white'
+                                            : isDark
+                                                ? 'bg-[#1a2544] text-white hover:bg-[#FFA600] hover:text-white'
+                                                : 'bg-white text-gray-900 hover:bg-[#FFA600] hover:text-white'
+                                        }
+                                    px-4 py-2 rounded-full transition-colors duration-300
+                                `}
                                 />
                             ))}
                         </motion.div>
@@ -275,15 +283,24 @@ export default function Projects() {
                     <AnimatePresence mode="wait">
                         <motion.div className="grid grid-cols-1 gap-4">
                             {filteredProjects.map(project => (
-                                <ProjectCard key={project.id} project={project} />
+                                <ProjectCard
+                                    key={project.id}
+                                    project={project}
+                                    className={`
+                                        ${isDark
+                                            ? 'bg-[#1a2544]'
+                                            : 'bg-white'
+                                        } rounded-xl overflow-hidden hover:shadow-lg`
+                                    }
+                                />
                             ))}
                         </motion.div>
                     </AnimatePresence>
                 </div>
-            </motion.div>
+            </motion.div >
 
             {/* Desktop View */}
-            <motion.div
+            < motion.div
                 className="hidden md:block"
                 variants={containerVariants}
                 initial="hidden"
@@ -332,18 +349,23 @@ export default function Projects() {
                             </motion.div>
                         </motion.div>
 
-                        <motion.div
-                            className="flex flex-wrap gap-3 mb-8"
-                            initial={{ y: 20, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.5 }}
-                        >
-                            {categories.map(category => (
+                        <motion.div className="flex flex-wrap gap-3 mb-8">
+                            {categories.map((category) => (
                                 <CategoryButton
                                     key={category.id}
                                     category={category}
                                     isSelected={selectedCategory === category.id}
                                     onClick={() => setSelectedCategory(category.id)}
+                                    isDark={isDark}
+                                    className={`
+                                    ${category.isSelected
+                                            ? 'bg-[#FFA600] text-white'
+                                            : isDark
+                                                ? 'bg-[#1a2544] text-white hover:bg-[#FFA600] hover:text-white'
+                                                : 'bg-white text-gray-900 hover:bg-[#FFA600] hover:text-white'
+                                        }
+                                    px-4 py-2 rounded-full transition-colors duration-300
+                                `}
                                 />
                             ))}
                         </motion.div>
@@ -389,7 +411,7 @@ export default function Projects() {
                         </AnimatePresence>
                     </motion.div>
                 </div>
-            </motion.div>
-        </motion.div>
+            </motion.div >
+        </motion.div >
     );
 }
