@@ -30,7 +30,6 @@ body {
 
 .navigation-grad {
   background: linear-gradient(135deg, #474394c5, #70c9f2, #474394c5);
-  /* background: linear-gradient(135deg, #474394, #70C8F2, #474394); */
   backdrop-filter: blur(2px);
   z-index: 10;
 }

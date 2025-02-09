@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useState, useEffect } from 'react';
-import { Code, Brain, Facebook, Github, Linkedin, } from 'lucide-react';
+import { Code, Brain, Facebook, Github, Linkedin } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Tooltip,
@@ -11,7 +11,6 @@ import {
 import PropTypes from 'prop-types';
 import AcademicTimeline from '../components/AcademicTimeline';
 
-// Extracted components for better organization
 const SocialLink = ({ href, icon: Icon, label }) => (
     <TooltipProvider>
         <Tooltip>
@@ -21,7 +20,7 @@ const SocialLink = ({ href, icon: Icon, label }) => (
                     target="_blank"
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.2, rotate: 5 }}
-                    className="text-gray-300 hover:text-[#FFA600] transition-colors"
+                    className="flex items-center justify-center text-center text-gray-600 hover:text-[#FFA600] transition-colors"
                 >
                     <Icon className="w-6 h-6" />
                 </motion.a>
@@ -49,7 +48,7 @@ const ProfileSection = ({ title, icon: Icon, children, className = "", delay = 0
             transition={{ duration: 0.6, delay }}
             onHoverStart={() => setIsHovered(true)}
             onHoverEnd={() => setIsHovered(false)}
-            className={`bg-[#1a2544]/80 backdrop-blur-sm rounded-xl p-6 border border-transparent hover:border-[#FFA600]/30 transition-colors ${className}`}
+            className={`${className} backdrop-blur-sm rounded-xl p-6 border transition-all duration-300 hover:shadow-lg`}
         >
             <motion.div
                 className="flex items-center gap-3 mb-4"
@@ -82,7 +81,7 @@ ProfileSection.propTypes = {
     icon: PropTypes.element.isRequired,
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
-    delay: PropTypes.number, // Add this line to validate the delay prop
+    delay: PropTypes.number,
 };
 
 const SkillTag = ({ children, index }) => {
@@ -99,10 +98,10 @@ const SkillTag = ({ children, index }) => {
                         whileHover={{ scale: 1.1 }}
                         onHoverStart={() => setIsHovered(true)}
                         onHoverEnd={() => setIsHovered(false)}
-                        className="bg-[#293556] px-4 py-2 rounded-full text-sm font-medium inline-block relative overflow-hidden group"
+                        className={`px-4 py-2 bg-gray-400/20  rounded-full text-sm font-medium inline-block relative overflow-hidden group`}
                     >
                         <motion.div
-                            className="absolute inset-0 bg-[#FFA600]/10"
+                            className="absolute inset-0 bg-[#FFA600]/20"
                             initial={{ scaleX: 0 }}
                             animate={{ scaleX: isHovered ? 1 : 0 }}
                             transition={{ duration: 0.3 }}
@@ -122,7 +121,6 @@ SkillTag.propTypes = {
 };
 
 export default function Profile() {
-
     const [isDark, setIsDark] = useState(true);
 
     useEffect(() => {
@@ -137,7 +135,6 @@ export default function Profile() {
         });
         return () => observer.disconnect();
     }, []);
-
 
     const hardSkills = {
         frontend: [
@@ -163,11 +160,10 @@ export default function Profile() {
     return (
         <div className={`min-h-screen transition-colors duration-300 ${isDark
             ? 'bg-gradient-to-b from-[#293556] to-[#1a2544] text-white'
-            : 'bg-gradient-to-b from-gray-50 via-gray-100 to-gray-200 text-gray-900'
+            : 'bg-gradient-to-b from-gray-100 via-gray-200 to-gray-200 text-gray-900'
             }`}>
             <div className="container mx-auto px-4 py-32">
                 <div className="max-w-5xl mx-auto">
-                    {/* Header Section with improved animations */}
                     <motion.div
                         className="flex flex-col justify-between items-center"
                         initial={{ opacity: 0, y: -50 }}
@@ -175,8 +171,8 @@ export default function Profile() {
                         transition={{ duration: 0.8 }}
                     >
                         <div className="flex flex-col md:flex-row items-center md:items-start gap-8 mb-12">
-                            <motion.div className={`w-48 h-48 relative rounded-full border-2 ${isDark ? 'border-white' : 'border-gray-800'
-                                } overflow-hidden`}>
+                            <motion.div className={`w-48 h-48 relative rounded-full border-2 border-white
+                                } overflow-hidden shadow-xl`}>
                                 <motion.div className={`absolute inset-0 bg-gradient-to-r ${isDark
                                     ? 'from-blue-400 to-blue-500'
                                     : 'from-blue-300 to-blue-400'
@@ -195,27 +191,24 @@ export default function Profile() {
                                     transition={{ duration: 0.8, delay: 0.2 }}
                                 >
                                     <h1 className="text-4xl font-bold">HARENARISOA Eloïc</h1>
-                                    <h2 className="text-xl font-semibold text-[#70C8F2]">
+                                    <h2 className={`text-xl font-semibold ${isDark ? 'text-[#70C8F2]' : 'text-[#FFA600]'}`}>
                                         Software Engineer / Fullstack Web Developer / UI-UX Designer
                                     </h2>
-                                    <p className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-700'
+                                    <p className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'
                                         } max-w-2xl text-justify mt-4`}>
                                         I blend technical expertise with artistic sensibility to create functional and visually appealing solutions. Committed to continuous learning, I stay ahead of industry trends to deliver cutting-edge solutions that meet evolving market needs.
                                     </p>
 
-
-                                    {/* Social Links */}
-                                    <div className="flex gap-4 mt-4">
-                                        <SocialLink href="https://github.com/eloic" icon={Github} />
-                                        <SocialLink href="https://linkedin.com/in/eloic" icon={Linkedin} />
-                                        <SocialLink href="https://github.com/eloic" icon={Facebook} />
+                                    <div className="w-full md:w-2/3 items-center justify-center text-center flex gap-4 mt-4">
+                                        <SocialLink href="https://github.com/eloic" icon={Github} label="GitHub" />
+                                        <SocialLink href="https://linkedin.com/in/eloic" icon={Linkedin} label="LinkedIn" />
+                                        <SocialLink href="https://facebook.com/eloic" icon={Facebook} label="Facebook" />
                                     </div>
                                 </motion.div>
                             </div>
                         </div>
                     </motion.div>
 
-                    {/* Main Content with Grid Layout */}
                     <div className="grid md:grid-cols-1 gap-16">
                         <div className="space-y-8">
                             <motion.h2
@@ -252,8 +245,8 @@ export default function Profile() {
                                     isDark={isDark}
                                     className={`${isDark
                                         ? 'bg-[#1a2544]/80 backdrop-blur-sm border-[#FFA600]/30'
-                                        : 'bg-white/90 backdrop-blur-sm border-gray-200 shadow-lg'
-                                        } rounded-xl p-6 border transition-colors duration-300`}
+                                        : 'bg-white/90 backdrop-blur-sm border-gray-200 shadow-lg hover:shadow-xl'
+                                        }`}
                                 >
                                     <div className="space-y-6">
                                         {Object.entries(hardSkills).map(([category, skills]) => (
@@ -263,7 +256,8 @@ export default function Profile() {
                                                 whileInView={{ opacity: 1 }}
                                                 viewport={{ once: true }}
                                             >
-                                                <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-3">
+                                                <h4 className={`text-sm font-semibold uppercase tracking-wider ${isDark ? 'text-gray-400' : 'text-gray-500'
+                                                    } mb-3`}>
                                                     {category.replace('_', ' ')}
                                                 </h4>
                                                 <div className="flex flex-wrap gap-2">
@@ -271,13 +265,10 @@ export default function Profile() {
                                                         <SkillTag
                                                             key={index}
                                                             index={index}
-                                                            proficiency={skill.proficiency}
-                                                            className={
-                                                                `${isDark ?
-                                                                    'bg-[#293556]' :
-                                                                    'bg-gray-200'
-                                                                } px-4 py-2 rounded-full text-sm`
-                                                            }
+                                                            className={`${isDark
+                                                                ? 'bg-[#293556] text-white'
+                                                                : 'bg-gray-100 text-gray-800 shadow-sm'
+                                                                }`}
                                                         >
                                                             {skill.name}
                                                         </SkillTag>
@@ -287,14 +278,16 @@ export default function Profile() {
                                         ))}
                                     </div>
                                 </ProfileSection>
-
-
                             </div>
                             <div className="space-y-8">
                                 <ProfileSection
                                     title="Soft skills"
                                     icon={Brain}
                                     delay={0.8}
+                                    className={`${isDark
+                                        ? 'bg-[#1a2544]/80 backdrop-blur-sm border-[#FFA600]/30'
+                                        : 'bg-white/90 backdrop-blur-sm border-gray-200 shadow-lg hover:shadow-xl'
+                                        }`}
                                 >
                                     <ul className="space-y-3">
                                         {[
@@ -315,7 +308,9 @@ export default function Profile() {
                                                 transition={{ delay: index * 0.1 }}
                                             >
                                                 <span className="w-2 h-2 bg-[#FFA600] rounded-full mt-2"></span>
-                                                <span className="text-gray-300">{skill}</span>
+                                                <span className={isDark ? 'text-gray-300' : 'text-gray-600'}>
+                                                    {skill}
+                                                </span>
                                             </motion.li>
                                         ))}
                                     </ul>

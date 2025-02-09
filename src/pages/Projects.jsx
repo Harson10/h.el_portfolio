@@ -4,14 +4,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import PropTypes from 'prop-types';
 
 const ProjectCard = ({ project, isDark }) => (
-
     <motion.div
         layout
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         whileHover={{ y: -5 }}
-        className="bg-[#1a2544] rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 group border border-gray-500"
+        className={`${isDark
+            ? 'bg-[#1a2544] border-gray-700'
+            : 'bg-white border-gray-200'
+            } rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 group border`}
     >
         <div className="relative aspect-video overflow-hidden">
             <motion.img
@@ -53,7 +55,7 @@ const ProjectCard = ({ project, isDark }) => (
             </motion.div>
         </div>
         <motion.div className="p-6">
-            <h3 className={`text-xl font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'
+            <h3 className={`text-xl font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-800'
                 }`}>
                 {project.title}
             </h3>
@@ -66,7 +68,7 @@ const ProjectCard = ({ project, isDark }) => (
                         key={index}
                         className={`px-3 py-1 rounded-full text-sm ${isDark
                             ? 'bg-[#293556] text-white'
-                            : 'bg-gray-100 text-gray-800'
+                            : 'bg-gray-100 text-gray-700'
                             }`}
                     >
                         {tech}
@@ -82,14 +84,16 @@ ProjectCard.propTypes = {
     isDark: PropTypes.bool.isRequired
 };
 
-const CategoryButton = ({ category, isSelected, onClick }) => (
+const CategoryButton = ({ category, isSelected, onClick, isDark }) => (
     <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={onClick}
         className={`px-4 py-2 rounded-full transition-all duration-300 ${isSelected
-            ? 'bg-[#FFA600] text-black'
-            : 'bg-[#1a2544] text-white hover:bg-[#FFA600] hover:text-black'
+            ? 'bg-[#FFA600] text-white'
+            : isDark
+                ? 'bg-[#1a2544] text-white hover:bg-[#FFA600] hover:text-white'
+                : 'bg-white text-gray-700 border border-gray-200 hover:bg-[#FFA600] hover:text-white shadow-sm'
             }`}
     >
         {category.label}
@@ -100,10 +104,10 @@ CategoryButton.propTypes = {
     category: PropTypes.object.isRequired,
     isSelected: PropTypes.bool.isRequired,
     onClick: PropTypes.func.isRequired,
+    isDark: PropTypes.bool.isRequired
 };
 
 export default function Projects() {
-
     const [isDark, setIsDark] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
@@ -121,8 +125,6 @@ export default function Projects() {
         });
         return () => observer.disconnect();
     }, []);
-
-
 
     const projectsData = [
         {
@@ -169,7 +171,6 @@ export default function Projects() {
         { id: 'mobile', label: 'Mobile' },
     ];
 
-
     const filteredProjects = projectsData.filter(project => {
         const matchesCategory = selectedCategory === 'all' || project.category === selectedCategory;
         const descriptionText = project.description.join(' ').toLowerCase();
@@ -193,9 +194,9 @@ export default function Projects() {
         <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className={`min-h-screen transition-colors duration-300  pt-24 pb-12 ${isDark
+            className={`min-h-screen transition-colors duration-300 pt-24 pb-12 ${isDark
                 ? 'bg-gradient-to-b from-[#293556] to-[#1a2544] text-white'
-                : 'bg-gradient-to-b from-gray-50 via-gray-100 to-gray-200 text-gray-900'
+                : 'bg-gradient-to-b from-gray-200 via-gray-100 to-gray-200 text-gray-900'
                 }`}
         >
             {/* Mobile View */}
@@ -212,7 +213,10 @@ export default function Projects() {
                         animate={{ y: 0, opacity: 1 }}
                     >
                         <motion.div
-                            className="w-20 h-20 rounded-full bg-gradient-to-r from-blue-400 to-blue-500 flex items-center justify-center border-2 border-white mx-auto mb-4"
+                            className={`w-20 h-20 rounded-full bg-gradient-to-r ${isDark
+                                ? 'from-blue-400 to-blue-500'
+                                : 'from-blue-300 to-blue-400'
+                                } flex items-center justify-center border-2 border-white mx-auto mb-4`}
                             transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                         >
                             <img src="/Logo_H_Eloïc.png" alt="Logo" className="w-full h-full object-cover" />
@@ -236,7 +240,10 @@ export default function Projects() {
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={() => setIsSearchVisible(!isSearchVisible)}
-                            className="w-full flex items-center justify-center gap-2 bg-[#1a2544] p-3 rounded-lg"
+                            className={`w-full flex items-center justify-center gap-2 ${isDark
+                                ? 'bg-[#1a2544] text-white'
+                                : 'bg-white text-gray-700 border border-gray-200 shadow-sm'
+                                } p-3 rounded-lg`}
                         >
                             <Search size={20} />
                             <span>Search</span>
@@ -252,7 +259,10 @@ export default function Projects() {
                                     placeholder="Search a project..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full bg-[#1a2544] p-3 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FFA600]"
+                                    className={`w-full p-3 rounded-lg ${isDark
+                                        ? 'bg-[#1a2544] text-white placeholder-gray-400'
+                                        : 'bg-white text-gray-700 border border-gray-200 placeholder-gray-400'
+                                        } focus:outline-none focus:ring-2 focus:ring-[#FFA600]`}
                                 />
                             )}
                         </AnimatePresence>
@@ -265,15 +275,6 @@ export default function Projects() {
                                     isSelected={selectedCategory === category.id}
                                     onClick={() => setSelectedCategory(category.id)}
                                     isDark={isDark}
-                                    className={`
-                                    ${category.isSelected
-                                            ? 'bg-[#FFA600] text-white'
-                                            : isDark
-                                                ? 'bg-[#1a2544] text-white hover:bg-[#FFA600] hover:text-white'
-                                                : 'bg-white text-gray-900 hover:bg-[#FFA600] hover:text-white'
-                                        }
-                                    px-4 py-2 rounded-full transition-colors duration-300
-                                `}
                                 />
                             ))}
                         </motion.div>
@@ -286,21 +287,16 @@ export default function Projects() {
                                 <ProjectCard
                                     key={project.id}
                                     project={project}
-                                    className={`
-                                        ${isDark
-                                            ? 'bg-[#1a2544]'
-                                            : 'bg-white'
-                                        } rounded-xl overflow-hidden hover:shadow-lg`
-                                    }
+                                    isDark={isDark}
                                 />
                             ))}
                         </motion.div>
                     </AnimatePresence>
                 </div>
-            </motion.div >
+            </motion.div>
 
             {/* Desktop View */}
-            < motion.div
+            <motion.div
                 className="hidden md:block"
                 variants={containerVariants}
                 initial="hidden"
@@ -315,7 +311,8 @@ export default function Projects() {
                         >
                             <div>
                                 <motion.h1
-                                    className="text-3xl font-bold mb-2"
+                                    className={`text-3xl font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'
+                                        }`}
                                     initial={{ x: -20, opacity: 0 }}
                                     animate={{ x: 0, opacity: 1 }}
                                     transition={{ delay: 0.2 }}
@@ -323,7 +320,7 @@ export default function Projects() {
                                     My Projects
                                 </motion.h1>
                                 <motion.p
-                                    className="text-gray-300"
+                                    className={isDark ? 'text-gray-300' : 'text-gray-600'}
                                     initial={{ x: -20, opacity: 0 }}
                                     animate={{ x: 0, opacity: 1 }}
                                     transition={{ delay: 0.3 }}
@@ -337,14 +334,18 @@ export default function Projects() {
                                 animate={{ x: 0, opacity: 1 }}
                                 transition={{ delay: 0.4 }}
                             >
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                                <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${isDark ? 'text-gray-400' : 'text-gray-500'
+                                    }`} size={20} />
                                 <motion.input
                                     whileFocus={{ scale: 1.02 }}
                                     type="text"
                                     placeholder="Search a project..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="bg-[#1a2544] pl-10 pr-4 py-2 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FFA600] transition-all duration-300"
+                                    className={`pl-10 pr-4 py-2 rounded-lg ${isDark
+                                        ? 'bg-[#1a2544] text-white placeholder-gray-400'
+                                        : 'bg-white text-gray-700 border border-gray-200 placeholder-gray-400'
+                                        } focus:outline-none focus:ring-2 focus:ring-[#FFA600] transition-all duration-300`}
                                 />
                             </motion.div>
                         </motion.div>
@@ -357,15 +358,6 @@ export default function Projects() {
                                     isSelected={selectedCategory === category.id}
                                     onClick={() => setSelectedCategory(category.id)}
                                     isDark={isDark}
-                                    className={`
-                                    ${category.isSelected
-                                            ? 'bg-[#FFA600] text-white'
-                                            : isDark
-                                                ? 'bg-[#1a2544] text-white hover:bg-[#FFA600] hover:text-white'
-                                                : 'bg-white text-gray-900 hover:bg-[#FFA600] hover:text-white'
-                                        }
-                                    px-4 py-2 rounded-full transition-colors duration-300
-                                `}
                                 />
                             ))}
                         </motion.div>
@@ -379,7 +371,11 @@ export default function Projects() {
                                     exit={{ opacity: 0 }}
                                 >
                                     {filteredProjects.map(project => (
-                                        <ProjectCard key={project.id} project={project} />
+                                        <ProjectCard
+                                            key={project.id}
+                                            project={project}
+                                            isDark={isDark}
+                                        />
                                     ))}
                                 </motion.div>
                             ) : (
@@ -400,10 +396,12 @@ export default function Projects() {
                                             repeatType: "reverse"
                                         }}
                                     >
-                                        <Tags className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                                        <Tags className={`mx-auto h-12 w-12 ${isDark ? 'text-gray-400' : 'text-gray-500'} mb-4`} />
                                     </motion.div>
-                                    <h3 className="text-xl font-bold mb-2">No project found</h3>
-                                    <p className="text-gray-400">
+                                    <h3 className={`text-xl font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-800'}`}>
+                                        No project found
+                                    </h3>
+                                    <p className={isDark ? 'text-gray-400' : 'text-gray-500'}>
                                         Try modifying your filters or your search
                                     </p>
                                 </motion.div>
@@ -411,7 +409,7 @@ export default function Projects() {
                         </AnimatePresence>
                     </motion.div>
                 </div>
-            </motion.div >
-        </motion.div >
+            </motion.div>
+        </motion.div>
     );
 }
